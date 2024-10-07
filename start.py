@@ -43,6 +43,11 @@ class Hero(Character):
   
   def show_details(self):
     return f"{super().show_details()}\nSpecial Attack: {self.get_special_attack()}"
+
+  def special_attack(self, target):
+    damage = self.get_level() * 5
+    target.receive_attack(damage)
+    print(f"{self.get_name()} used special attack {self.get_special_attack()} in {target.get_name()} and caused {damage} damage!!!")
   
 
 # Enemy Class
@@ -61,28 +66,34 @@ class Enemy(Character):
 class Game:
   def __init__(self) -> None:
     self.hero = Hero(name="Hero", health_points=100, level=5, special_attack="Super Strengh")
-    self.enemy = Enemy(name="Enemy", health_points=50, level=2, type="Fly")
+    self.enemy = Enemy(name="Enemy", health_points=80, level=5, type="Fly")
 
   def start_battle(self):
     print("Start Battle")
 
     while (self.hero.get_health_points() > 0 and self.enemy.get_health_points() > 0):
-      print("\nCharacteres Details")
+      print("\nCharacters Details")
       print(self.hero.show_details())
       print(self.enemy.show_details())
 
-      input("\nPress Enter to  attack...")
-      choose = input("Choose (1 - Normal Attack, 2 - Special Attack)")
+      input("\nPress Enter to attack...")
+      choose = input("Choose (1 - Normal Attack, 2 - Special Attack): ")
 
       if choose == "1":
         self.hero.attack(self.enemy)
+      elif choose == "2":
+        self.hero.special_attack(self.enemy)
       else:
         print(f"invalid choose")
 
+      if self.enemy.get_health_points() > 0:
+        self.enemy.attack(self.hero)
+
+
     if self.hero.get_health_points() > 0:
-      print("\nCongratulations, you won the battle")
+      print("\nCongratulations, you won the battle!!!")
     else:
-      print("\nYou were defeated!")
+      print("\nYou were defeated :(")
 
 
 game = Game()
