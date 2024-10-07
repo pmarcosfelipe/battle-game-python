@@ -18,7 +18,7 @@ class Character:
     return self.__level
   
   def show_details(self):
-    return f"Name: {self.get_name()}\nHP: {self.get_health_points()}\nLevel: {self.get_level()}"
+    return f"\nName: {self.get_name()}\nHP: {self.get_health_points()}\nLevel: {self.get_level()}"
 
 
 # Hero Class  
@@ -47,8 +47,21 @@ class Enemy(Character):
     return f"{super().show_details()}\nType: {self.get_type()}"
     
 
-hero = Hero(name="Hero", health_points=100, level=5, special_attack="Super Strengh")
-print(hero.show_details())
+class Game:
+  def __init__(self) -> None:
+    self.hero = Hero(name="Hero", health_points=100, level=5, special_attack="Super Strengh")
+    self.enemy = Enemy(name="Enemy", health_points=50, level=2, type="Fly")
 
-enemy = Enemy(name="Enemy", health_points=50, level=2, type="Fly")
-print(enemy.show_details())
+  def start_battle(self):
+    print("Start_battleing Battle")
+    while (self.hero.get_health_points() > 0 and self.enemy.get_health_points() > 0):
+      print("\nCharacteres Details")
+      print(self.hero.show_details())
+      print(self.enemy.show_details())
+
+      input("\nPress Enter to  attack...")
+      choose = input("Choose (1 - Normal Attack, 2 - Special Attack)")
+
+
+game = Game()
+game.start()
